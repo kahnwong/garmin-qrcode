@@ -51,10 +51,11 @@ class GarminQrcodeView extends Ui.View {
     if (qrcodeImageUrl != null) {
       var options = {
         :method => Communications.HTTP_REQUEST_METHOD_GET,
-        :headers => {},
+        // :headers => { "X-API-Key" => apiKey }, // this doesn't work with `makeImageRequest`
         :maxWidth => imageSize,
         :maxHeight => imageSize,
         :dithering => Communications.IMAGE_DITHERING_NONE,
+        :packingFormat => Communications.PACKING_FORMAT_PNG,
       };
 
       Communications.makeImageRequest(
