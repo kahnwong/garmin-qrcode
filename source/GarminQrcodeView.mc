@@ -59,7 +59,7 @@ class GarminQrcodeView extends Ui.View {
       };
 
       Communications.makeImageRequest(
-        qrcodeImageUrl,
+        qrcodeImageUrl + "?apiKey=" + apiKey,
         {},
         options,
         method(:onReceive)
