@@ -8,9 +8,7 @@ class GarminQrcodeApp extends App.AppBase {
     AppBase.initialize();
   }
 
-  function onStart(state) {
-    // makeRequest();
-  }
+  function onStart(state) {}
 
   function onStop(state) {}
 
