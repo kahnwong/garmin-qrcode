@@ -1,7 +1,7 @@
 using Toybox.Application as App;
-using Toybox.WatchUi as Ui;
-using Toybox.System;
 using Toybox.Communications;
+using Toybox.System;
+using Toybox.WatchUi as Ui;
 
 class GarminQrcodeApp extends App.AppBase {
   function initialize() {
