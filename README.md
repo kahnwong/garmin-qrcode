@@ -2,6 +2,8 @@
 
 Me want the qrcode on my wrist.
 
+Api endpoint is from [this repo](https://github.com/kahnwong/qrcode-api).
+
 ## Pre-reqs
 
 Specify config variables here: `./resources/properties.xml`.
