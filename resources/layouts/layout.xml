@@ -1,0 +1,9 @@
+<layout id="MainLayout">
+  <label id="row1" x="center" y="20" font="Gfx.FONT_XTINY" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+  <label id="row2" x="center" y="40" font="Gfx.FONT_XTINY" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+  <label id="row3" x="center" y="60" font="Gfx.FONT_XTINY" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+  <label id="row4" x="center" y="80" font="Gfx.FONT_XTINY" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+  <label id="row5" x="center" y="100" font="Gfx.FONT_XTINY" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+  <label id="row6" x="center" y="120" font="Gfx.FONT_XTINY" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+  <label id="row7" x="center" y="140" font="Gfx.FONT_XTINY" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+</layout>
