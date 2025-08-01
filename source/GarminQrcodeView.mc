@@ -8,26 +8,24 @@ using Toybox.WatchUi as Ui;
 class GarminQrcodeView extends Ui.View {
   // api data
   var image;
-  var _todos;
+  var _title;
 
   // rendering config
   var imageSize = 90;
-  var titleLabel as Ui.Text?;
 
   // api request
   var dataReady = false;
 
-  function initialize(todos) {
+  function initialize(title) {
     View.initialize();
-    _todos = todos;
+    _title = title;
   }
 
   function onLayout(dc) {
     setLayout(Rez.Layouts.MainLayout(dc));
 
-    if (_todos.size() > 0) {
-      System.println(_todos.size());
-      View.findDrawableById("title").setText(_todos[0]);
+    if (_title != null && _title.size() > 0) {
+      View.findDrawableById("title").setText(_title[0]);
     }
   }
 
@@ -39,7 +37,6 @@ class GarminQrcodeView extends Ui.View {
     View.onUpdate(dc);
 
     if (image != null) {
-      // dc.drawText(30, 30, Gfx.FONT_XTINY, "foo2", Graphics.TEXT_JUSTIFY_LEFT);
       dc.drawBitmap(30, 65, image);
     }
   }

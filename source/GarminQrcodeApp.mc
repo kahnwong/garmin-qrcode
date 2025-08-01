@@ -38,15 +38,11 @@ class GarminQrcodeApp extends App.AppBase {
     );
   }
   function onTitleReceive(responseCode, data) {
-    // Expecting data to be an array of objects with 'id' and 'todo'
-    var todos = [];
-    if (data != null && data.size() > 0) {
-      for (var i = 0; i < data.size(); ++i) {
-        var item = data[i];
-        todos.add(item.get("todo"));
-      }
+    var title ;
+    if (data != null) {
+      title =  [data.get("name")];  // on init it's an array, this is to prevent it from borking
     }
 
-    Ui.switchToView(new GarminQrcodeView(todos), null, Ui.SLIDE_IMMEDIATE);
+    Ui.switchToView(new GarminQrcodeView(title), null, Ui.SLIDE_IMMEDIATE);
   }
 }
