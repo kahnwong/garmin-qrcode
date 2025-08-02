@@ -6,48 +6,106 @@ using Toybox.System;
 using Toybox.WatchUi as Ui;
 
 class GarminQrcodeView extends Ui.View {
-  // api data
-  var image;
+  hidden var _pagenumber;
+  hidden var _message;
+  var _maxpage = 5;
+
+  // api response
   var _title;
+  var _image;
 
-  // rendering config
-  var imageSize = 90;
-
-  // api request
-  var dataReady = false;
-
-  function initialize(title) {
+  function initialize() {
     View.initialize();
-    _title = title;
+    _pagenumber = 1;
+    _message = "Page: " + _pagenumber;
+
+    makeTitleRequest();
+    makeImageRequest();
   }
 
-  function onLayout(dc) {
-    setLayout(Rez.Layouts.MainLayout(dc));
+  function onLayout(dc) {}
 
-    if (_title != null && _title.size() > 0) {
-      View.findDrawableById("title").setText(_title[0]);
-    }
-  }
-
-  function onShow() {
-    makeRequest();
-  }
+  function onShow() {}
 
   function onUpdate(dc) {
     View.onUpdate(dc);
 
-    if (image != null) {
-      dc.drawBitmap(30, 65, image);
+    // clear the screen
+    dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
+    dc.clear();
+
+    // display content
+    // -- pagination --
+    dc.drawText(140, 80, Gfx.FONT_XTINY, _pagenumber, Gfx.TEXT_JUSTIFY_LEFT);
+    dc.drawText(140, 100, Gfx.FONT_XTINY, "of", Gfx.TEXT_JUSTIFY_LEFT);
+    dc.drawText(140, 120, Gfx.FONT_XTINY, _maxpage, Gfx.TEXT_JUSTIFY_LEFT);
+
+    // -- content --
+    if (_title != null) {
+      dc.drawText(30, 30, Gfx.FONT_XTINY, _title, Gfx.TEXT_JUSTIFY_LEFT);
+    }
+    if (_image != null) {
+      dc.drawBitmap(30, 65, _image);
     }
   }
 
   function onHide() {}
 
-  // ------- fetch png -------
-  function makeRequest() {
+  function updateMessage(increment) {
+    // set page number
+    _pagenumber += increment;
+    if (_pagenumber > 5) {
+      _pagenumber = 1;
+    } else if (_pagenumber < 1) {
+      _pagenumber = 5;
+    }
+    _message = "Page: " + _pagenumber;
+    System.println(_message);
+
+    // fetch api response
+    makeTitleRequest();
+    makeImageRequest();
+
+    // redraw
+    Ui.requestUpdate();
+  }
+
+  // --------- api request: title ---------
+  function makeTitleRequest() {
+    var apiEndpoint = App.Properties.getValue("qrcodeTitleUrl");
+    var apiKey = App.Properties.getValue("apiKey");
+    // System.println(apiEndpoint);
+    // System.println(apiKey);
+
+    var params = null;
+    var options = {
+      :method => Communications.HTTP_REQUEST_METHOD_GET,
+      :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_JSON,
+      :headers => { "X-API-Key" => apiKey },
+    };
+
+    System.println("Fetching title...");
+    Communications.makeWebRequest(
+      apiEndpoint,
+      params,
+      options,
+      method(:onTitleReceive)
+    );
+  }
+  function onTitleReceive(responseCode, data) {
+    System.println("Fetching title: callback ...");
+    if (data != null) {
+      _title = data.get("name");
+      // _title = _title + "foo" + _pagenumber; // debug
+      Ui.requestUpdate();
+    }
+  }
+  // --------- api request: qrcode ---------
+  function makeImageRequest() {
     var qrcodeImageUrl = App.Properties.getValue("qrcodeImageUrl");
     var apiKey = App.Properties.getValue("apiKey");
 
+    var imageSize = 90;
     if (qrcodeImageUrl != null) {
       var options = {
         :method => Communications.HTTP_REQUEST_METHOD_GET,
@@ -58,24 +116,25 @@ class GarminQrcodeView extends Ui.View {
         :packingFormat => Communications.PACKING_FORMAT_PNG,
       };
 
+      System.println("Fetching image...");
       Communications.makeImageRequest(
         qrcodeImageUrl + "?apiKey=" + apiKey,
         {},
         options,
-        method(:onReceive)
+        method(:onImageReceive)
       );
     }
   }
-  function onReceive(responseCode, data) {
+  function onImageReceive(responseCode, data) {
+    System.println("Fetching image: callback ...");
     if (responseCode == 200) {
       if (data != null) {
-        image = data;
+        _image = data;
       }
     } else {
-      System.println("Error: " + responseCode);
+      System.println("Fetching image: callback - error: " + responseCode);
     }
 
-    dataReady = true;
     Ui.requestUpdate();
   }
 }
