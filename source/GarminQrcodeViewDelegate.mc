@@ -1,4 +1,6 @@
 using Toybox.WatchUi as Ui;
+using Toybox.Application.Storage;
+using Toybox.Timer;
 
 class GarminQrcodeViewDelegate extends Ui.BehaviorDelegate {
   private var longPressTimer;
@@ -63,33 +65,61 @@ class GarminQrcodeViewDelegate extends Ui.BehaviorDelegate {
     System.println("KEY_UP long press!");
 
     WatchUi.pushView(
-      new WatchUi.Confirmation("Long Press Action?"),
-      new MyConfirmationDelegate(),
+      new SimpleConfirmationView(),
+      new SimpleConfirmationDelegate(),
       WatchUi.SLIDE_UP
     );
   }
 }
 
-class MyConfirmationDelegate extends Ui.ConfirmationDelegate {
+class SimpleConfirmationView extends Ui.View {
   function initialize() {
-    ConfirmationDelegate.initialize();
+    View.initialize();
   }
 
-  function onResponse(response) {
-    if (response == WatchUi.CONFIRM_YES) {
-      System.println("Long press action confirmed!");
-      // Perform the confirmed action
-
-      // [TODO] set to first page
-    } else {
-      System.println("Long press action cancelled");
-
-      // [TODO] set to first page
-    }
-
-    // Pop the confirmation view
-    WatchUi.popView(WatchUi.SLIDE_DOWN);
-
-    return true;
+  function onUpdate(dc) {
+    dc.setColor(Ui.Graphics.COLOR_WHITE, Ui.Graphics.COLOR_BLACK);
+    dc.clear();
+    dc.drawText(
+      dc.getWidth() / 2,
+      dc.getHeight() / 2 - 30,
+      Ui.Graphics.FONT_MEDIUM,
+      "Cache this?",
+      Ui.Graphics.TEXT_JUSTIFY_CENTER
+    );
+    dc.drawText(
+      dc.getWidth() / 2,
+      dc.getHeight() / 2 + 10,
+      Ui.Graphics.FONT_SMALL,
+      "UP = Yes, DOWN = No",
+      Ui.Graphics.TEXT_JUSTIFY_CENTER
+    );
   }
 }
+
+class SimpleConfirmationDelegate extends Ui.BehaviorDelegate {
+  function initialize() {
+    BehaviorDelegate.initialize();
+  }
+
+  function onKeyPressed(keyEvent) {
+    var key = keyEvent.getKey();
+
+    if (key == Ui.KEY_UP) {
+      System.println("User confirmed");
+
+      WatchUi.popView(WatchUi.SLIDE_DOWN);
+      return true;
+    } else if (key == Ui.KEY_DOWN) {
+      System.println("User cancelled");
+
+      WatchUi.popView(WatchUi.SLIDE_DOWN);
+      return true;
+    }
+
+    return false;
+  }
+}
+// Storage.setValue("myKey", myData);
+// Storage.getValue("myKey");
+// Storage.deleteValue("myKey");

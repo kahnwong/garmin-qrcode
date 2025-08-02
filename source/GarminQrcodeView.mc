@@ -14,9 +14,6 @@ class GarminQrcodeView extends Ui.View {
   var _title;
   var _image;
 
-  // refetch menu
-  var _isRefetch = false;
-
   function initialize() {
     View.initialize();
     _pagenumber = 1;
@@ -38,22 +35,17 @@ class GarminQrcodeView extends Ui.View {
     dc.clear();
 
     // display content
-    if (_isRefetch == false) {
-      // -- pagination --
-      dc.drawText(140, 80, Gfx.FONT_XTINY, _pagenumber, Gfx.TEXT_JUSTIFY_LEFT);
-      dc.drawText(140, 100, Gfx.FONT_XTINY, "of", Gfx.TEXT_JUSTIFY_LEFT);
-      dc.drawText(140, 120, Gfx.FONT_XTINY, _maxpage, Gfx.TEXT_JUSTIFY_LEFT);
+    // -- pagination --
+    dc.drawText(140, 80, Gfx.FONT_XTINY, _pagenumber, Gfx.TEXT_JUSTIFY_LEFT);
+    dc.drawText(140, 100, Gfx.FONT_XTINY, "of", Gfx.TEXT_JUSTIFY_LEFT);
+    dc.drawText(140, 120, Gfx.FONT_XTINY, _maxpage, Gfx.TEXT_JUSTIFY_LEFT);
 
-      // -- content --
-      if (_title != null) {
-        dc.drawText(30, 30, Gfx.FONT_XTINY, _title, Gfx.TEXT_JUSTIFY_LEFT);
-      }
-      if (_image != null) {
-        dc.drawBitmap(30, 65, _image);
-      }
-    } else {
-      System.println("refetching..");
-      dc.drawText(140, 80, Gfx.FONT_XTINY, "foo", Gfx.TEXT_JUSTIFY_LEFT);
+    // -- content --
+    if (_title != null) {
+      dc.drawText(30, 30, Gfx.FONT_XTINY, _title, Gfx.TEXT_JUSTIFY_LEFT);
+    }
+    if (_image != null) {
+      dc.drawBitmap(30, 65, _image);
     }
   }
 
@@ -73,15 +65,6 @@ class GarminQrcodeView extends Ui.View {
     // fetch api response
     makeTitleRequest(_pagenumber);
     makeImageRequest(_pagenumber);
-
-    // redraw
-    Ui.requestUpdate();
-  }
-
-  function refetchData() {
-    _isRefetch = true;
-
-    System.println(_isRefetch);
 
     // redraw
     Ui.requestUpdate();
