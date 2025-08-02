@@ -8,7 +8,7 @@ using Toybox.WatchUi as Ui;
 class GarminQrcodeView extends Ui.View {
   hidden var _pagenumber;
   hidden var _message;
-  var _maxpage = 5;
+  var _maxpage = 6;
 
   // api response
   var _title;
@@ -19,8 +19,8 @@ class GarminQrcodeView extends Ui.View {
     _pagenumber = 1;
     _message = "Page: " + _pagenumber;
 
-    makeTitleRequest();
-    makeImageRequest();
+    makeTitleRequest(1);
+    makeImageRequest(1);
   }
 
   function onLayout(dc) {}
@@ -54,24 +54,24 @@ class GarminQrcodeView extends Ui.View {
   function updateMessage(increment) {
     // set page number
     _pagenumber += increment;
-    if (_pagenumber > 5) {
+    if (_pagenumber > _maxpage) {
       _pagenumber = 1;
     } else if (_pagenumber < 1) {
-      _pagenumber = 5;
+      _pagenumber = _maxpage;
     }
     _message = "Page: " + _pagenumber;
     System.println(_message);
 
     // fetch api response
-    makeTitleRequest();
-    makeImageRequest();
+    makeTitleRequest(_pagenumber);
+    makeImageRequest(_pagenumber);
 
     // redraw
     Ui.requestUpdate();
   }
 
   // --------- api request: title ---------
-  function makeTitleRequest() {
+  function makeTitleRequest(id) {
     var apiEndpoint = App.Properties.getValue("qrcodeTitleUrl");
     var apiKey = App.Properties.getValue("apiKey");
     // System.println(apiEndpoint);
@@ -86,7 +86,7 @@ class GarminQrcodeView extends Ui.View {
 
     System.println("Fetching title...");
     Communications.makeWebRequest(
-      apiEndpoint,
+      apiEndpoint + "/" + id,
       params,
       options,
       method(:onTitleReceive)
@@ -101,7 +101,7 @@ class GarminQrcodeView extends Ui.View {
     }
   }
   // --------- api request: qrcode ---------
-  function makeImageRequest() {
+  function makeImageRequest(id) {
     var qrcodeImageUrl = App.Properties.getValue("qrcodeImageUrl");
     var apiKey = App.Properties.getValue("apiKey");
 
@@ -118,7 +118,7 @@ class GarminQrcodeView extends Ui.View {
 
       System.println("Fetching image...");
       Communications.makeImageRequest(
-        qrcodeImageUrl + "?apiKey=" + apiKey,
+        qrcodeImageUrl + "/" + id + "?apiKey=" + apiKey,
         {},
         options,
         method(:onImageReceive)
