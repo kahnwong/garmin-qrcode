@@ -8,7 +8,7 @@ using Toybox.WatchUi as Ui;
 class GarminQrcodeView extends Ui.View {
   hidden var _pagenumber;
   hidden var _message;
-  var _maxpage = 6;
+  var _maxpage = 7;
 
   // api response
   var _title;
