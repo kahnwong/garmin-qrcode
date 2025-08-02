@@ -51,7 +51,7 @@ class GarminQrcodeView extends Ui.View {
 
   function onHide() {}
 
-  function updateMessage(increment) {
+  function updateQrcodeItem(increment) {
     // set page number
     _pagenumber += increment;
     if (_pagenumber > _maxpage) {
