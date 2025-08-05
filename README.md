@@ -13,6 +13,7 @@ Specify config variables here: `./resources/properties.xml`.
     <property id="qrcodeImageUrl" type="string"></property>
     <property id="qrcodeTitleUrl" type="string"></property>
     <property id="apiKey" type="string"></property>
+    <property id="apiImageGetKey" type="string"></property>
 </properties>
 ```
 

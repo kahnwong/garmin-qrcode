@@ -103,7 +103,7 @@ class GarminQrcodeView extends Ui.View {
   // --------- api request: qrcode ---------
   function makeImageRequest(id) {
     var qrcodeImageUrl = App.Properties.getValue("qrcodeImageUrl");
-    var apiKey = App.Properties.getValue("apiKey");
+    var apiKey = App.Properties.getValue("apiImageGetKey");
 
     var imageSize = 90;
     if (qrcodeImageUrl != null) {
