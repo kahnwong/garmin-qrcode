@@ -13,6 +13,7 @@ class GarminQrcodeApp extends App.AppBase {
   function onStop(state) {}
 
   function getInitialView() {
-    return [new GarminQrcodeView(), new GarminQrcodeViewDelegate()];
+    var view = new GarminQrcodeView();
+    return [view, new GarminQrcodeViewDelegate(view)];
   }
 }
