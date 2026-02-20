@@ -54,7 +54,7 @@ class GarminQrcodeViewDelegate extends Ui.BehaviorDelegate {
     }
   }
 
-  function onLongPress() {
+  function onLongPress() as Void {
     isLongPressTriggered = true;
     longPressTimer = null;
 
@@ -78,21 +78,21 @@ class SimpleConfirmationView extends Ui.View {
   }
 
   function onUpdate(dc) {
-    dc.setColor(Ui.Graphics.COLOR_WHITE, Ui.Graphics.COLOR_BLACK);
+    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
     dc.clear();
     dc.drawText(
       dc.getWidth() / 2,
       dc.getHeight() / 2 - 30,
-      Ui.Graphics.FONT_MEDIUM,
+      Graphics.FONT_MEDIUM,
       "Cache this?",
-      Ui.Graphics.TEXT_JUSTIFY_CENTER
+      Graphics.TEXT_JUSTIFY_CENTER
     );
     dc.drawText(
       dc.getWidth() / 2,
       dc.getHeight() / 2 + 10,
-      Ui.Graphics.FONT_SMALL,
+      Graphics.FONT_SMALL,
       "UP = Yes, DOWN = No",
-      Ui.Graphics.TEXT_JUSTIFY_CENTER
+      Graphics.TEXT_JUSTIFY_CENTER
     );
   }
 }

@@ -92,7 +92,7 @@ class GarminQrcodeView extends Ui.View {
       method(:onTitleReceive)
     );
   }
-  function onTitleReceive(responseCode, data) {
+  function onTitleReceive(responseCode as Lang.Number, data as Lang.Dictionary or Null) as Void {
     System.println("Fetching title: callback ...");
     if (data != null) {
       _title = data.get("name");
@@ -125,7 +125,7 @@ class GarminQrcodeView extends Ui.View {
       );
     }
   }
-  function onImageReceive(responseCode, data) {
+  function onImageReceive(responseCode as Lang.Number, data as Graphics.BitmapReference or Null) as Void {
     System.println("Fetching image: callback ...");
     if (responseCode == 200) {
       if (data != null) {
