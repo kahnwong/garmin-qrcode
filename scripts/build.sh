@@ -1,7 +1,7 @@
 #!/bin/bash
 
 java -Xms1g -Dfile.encoding=UTF-8 -Dapple.awt.UIElement=true \
-  -jar ~/.Garmin/ConnectIQ/Sdks/connectiq-sdk-lin-8.4.1-2026-02-03-e9f77eeaa/bin/monkeybrains.jar \
+  -jar "$(find ~/.Garmin/ConnectIQ/Sdks/ -name "monkeybrains.jar" | grep bin | tail -1)" \
   -o bin/garminqrcode.prg \
   -f "$(pwd)/monkey.jungle" \
   -y ~/.Garmin/keys/developer_key \

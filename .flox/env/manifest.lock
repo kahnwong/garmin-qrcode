@@ -1,0 +1,15 @@
+{
+  "lockfile-version": 1,
+  "manifest": {
+    "schema-version": "1.10.0",
+    "hook": {},
+    "profile": {},
+    "options": {},
+    "services": {
+      "simulator": {
+        "command": "$(find ~/.Garmin/ConnectIQ/AppImages/ -name \"*Simulator*\" | tail -1)"
+      }
+    }
+  },
+  "packages": []
+}
